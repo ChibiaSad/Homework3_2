@@ -1,15 +1,23 @@
 package ru.hogwarts.school.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Faculty {
-    private Long id;
+    @Id
+    @GeneratedValue
+    private long id;
     private String name;
     private String color;
 
+    public Faculty() {
+    }
     public Faculty(Long id, String name, String color) {
         this.id = id;
-        this.name = name;
+        this.name = name; 
         this.color = color;
     }
 
