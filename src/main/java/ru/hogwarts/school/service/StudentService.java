@@ -14,26 +14,26 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    public Student addStudent(Student student){
+    public Student addStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    public Student getStudent(long id){
-        return studentRepository.findById(id).orElse(new Student(-1L, "", 0));
+    public Student getStudent(long id) {
+        return studentRepository.findById(id).orElse(null);
     }
 
-    public Student setStudent(Student student){
-        if(studentRepository.findById(student.getId()).isPresent()){
+    public Student setStudent(Student student) {
+        if (studentRepository.findById(student.getId()).isPresent()) {
             return studentRepository.save(student);
         }
         return null;
     }
 
-    public void deleteStudent(long id){
+    public void deleteStudent(long id) {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> getAllByAge(int age){
+    public Collection<Student> getAllByAge(int age) {
         return studentRepository.findAllByAge(age);
     }
 

@@ -138,22 +138,22 @@ class FacultyServiceTest {
 //        facultyService.addFaculty(faculty2);
 //        facultyService.addFaculty(faculty3);
 //
-//        assertThat(facultyService.getAllByAge("red"))
+//        assertThat(facultyService.getAllByColor("red"))
 //                .isNotEmpty()
 //                .hasSize(1)
 //                .containsOnly(faculty1);
 //
-//        assertThat(facultyService.getAllByAge("blue"))
+//        assertThat(facultyService.getAllByColor("blue"))
 //                .isNotEmpty()
 //                .hasSize(1)
 //                .containsOnly(faculty3);
 //
-//        assertThat(facultyService.getAllByAge("green"))
+//        assertThat(facultyService.getAllByColor("green"))
 //                .isNotEmpty()
 //                .hasSize(1)
 //                .containsOnly(faculty2);
 //
-//        assertThat(facultyService.getAllByAge("pink"))
+//        assertThat(facultyService.getAllByColor("pink"))
 //                .isEmpty();
 //    }
 }

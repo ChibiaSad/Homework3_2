@@ -14,22 +14,22 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    public Faculty addFaculty(Faculty faculty){
+    public Faculty addFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
 
-    public Faculty getFaculty(long id){
-        return facultyRepository.findById(id).orElse(new Faculty(-1L, "",""));
+    public Faculty getFaculty(long id) {
+        return facultyRepository.findById(id).orElse(null);
     }
 
-    public Faculty setFaculty(Faculty faculty){
-        if(facultyRepository.findById(faculty.getId()).isPresent()){
+    public Faculty setFaculty(Faculty faculty) {
+        if (facultyRepository.findById(faculty.getId()).isPresent()) {
             return facultyRepository.save(faculty);
         }
         return null;
     }
 
-    public void deleteFaculty(long id){
+    public void deleteFaculty(long id) {
         facultyRepository.deleteById(id);
     }
 
