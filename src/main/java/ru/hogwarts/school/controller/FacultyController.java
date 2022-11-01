@@ -34,7 +34,7 @@ public class FacultyController {
     public ResponseEntity<Faculty> setFaculty(@RequestBody Faculty faculty){
         Faculty temp = facultyService.setFaculty(faculty);
         if(temp == null){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(faculty);
     }

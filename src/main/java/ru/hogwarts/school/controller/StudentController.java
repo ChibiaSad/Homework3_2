@@ -34,7 +34,7 @@ public class StudentController {
     public ResponseEntity<Student> setStudent(@RequestBody Student student){
         Student temp = studentService.setStudent(student);
         if(temp == null){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(student);
     }
