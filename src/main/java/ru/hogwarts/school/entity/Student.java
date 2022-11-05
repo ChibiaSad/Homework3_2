@@ -1,25 +1,25 @@
-package ru.hogwarts.school.model;
+package ru.hogwarts.school.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Student {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private int age;
+    @ManyToOne()
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
-    public Student() {
+    public long getFaculty() {
+        return faculty.getId();   //если возвращать факультет получается какой то Error: response status is 200
     }
 
-    public Student(Long id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public Long getId() {
