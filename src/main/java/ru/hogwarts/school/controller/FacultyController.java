@@ -3,7 +3,8 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.entity.Faculty;
-import ru.hogwarts.school.entity.Student;
+import ru.hogwarts.school.record.FacultyRecord;
+import ru.hogwarts.school.record.StudentRecord;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
@@ -18,26 +19,18 @@ public class FacultyController {
     }
 
     @PostMapping()
-    public Faculty addFaculty(@RequestBody Faculty faculty){
-        return facultyService.addFaculty(faculty);
+    public FacultyRecord addFaculty(@RequestBody FacultyRecord facultyRecord){
+        return facultyService.addFaculty(facultyRecord);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable long id){
-        Faculty faculty = facultyService.getFaculty(id);
-        if(faculty == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+    public ResponseEntity<FacultyRecord> getFaculty(@PathVariable long id){
+        return ResponseEntity.ok(facultyService.getFaculty(id));
     }
 
     @PutMapping()
-    public ResponseEntity<Faculty> setFaculty(@RequestBody Faculty faculty){
-        Faculty temp = facultyService.setFaculty(faculty);
-        if(temp == null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+    public ResponseEntity<FacultyRecord> setFaculty(@RequestBody FacultyRecord facultyRecord){
+        return ResponseEntity.ok(facultyService.setFaculty(facultyRecord));
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +40,7 @@ public class FacultyController {
     }
 
     @GetMapping(params = "color")
-    public ResponseEntity<Collection<Faculty>> getAllByColor(@RequestParam String color,
+    public ResponseEntity<Collection<FacultyRecord>> getAllByColor(@RequestParam String color,
                                                              @RequestParam(required = false) String name){
         if(name == null){
             return ResponseEntity.ok(facultyService.getAllByColor(color));
@@ -56,12 +49,12 @@ public class FacultyController {
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<Faculty>> getAll(){
+    public ResponseEntity<Collection<FacultyRecord>> getAll(){
         return ResponseEntity.ok(facultyService.getAll());
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<Collection<Student>> getStudentsOfFacultyById(@PathVariable long id){
-        return ResponseEntity.ok(facultyService.getStudentByFacultyId(id));
+    public ResponseEntity<Collection<StudentRecord>> getStudentsOfFacultyById(@PathVariable long id){
+        return ResponseEntity.ok(facultyService.getStudentsByFacultyId(id));
     }
 }

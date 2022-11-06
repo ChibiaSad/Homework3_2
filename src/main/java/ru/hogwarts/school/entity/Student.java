@@ -14,8 +14,8 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    public long getFaculty() {
-        return faculty.getId();   //если возвращать факультет получается какой то Error: response status is 200
+    public Faculty getFaculty() {
+        return faculty;   //если возвращать факультет получается какой то Error: response status is 200
     }
 
     public void setFaculty(Faculty faculty) {
