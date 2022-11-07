@@ -15,7 +15,7 @@ public class Student {
     private Faculty faculty;
 
     public Faculty getFaculty() {
-        return faculty;   //если возвращать факультет получается какой то Error: response status is 200
+        return faculty;
     }
 
     public void setFaculty(Faculty faculty) {
@@ -24,10 +24,6 @@ public class Student {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.component.RecordMapper;
+import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.record.FacultyRecord;
 import ru.hogwarts.school.entity.Student;
@@ -60,10 +61,7 @@ public class StudentService {
     }
 
     public FacultyRecord getFacultyByStudentId(long id){
-        FacultyRecord facultyRecord = new FacultyRecord();
-        facultyRecord.setId(studentRepository.findFacultyByStudentId(id).getId());
-        facultyRecord.setName(studentRepository.findFacultyByStudentId(id).getName());
-        facultyRecord.setColor(studentRepository.findFacultyByStudentId(id).getColor());
-        return facultyRecord;
+        Faculty faculty = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new).getFaculty();
+        return recordMapper.toRecord(faculty);
     }
 }

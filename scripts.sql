@@ -10,6 +10,6 @@ select * from student order by age;
 
 
 
-SELECT f.* FROM student as s, faculty as f WHERE s.faculty_id = f.id and s.id = 6;
+SELECT f.id, f.name FROM student as s, faculty as f WHERE s.faculty_id = f.id and s.id = 6;
 
 SELECT s.* FROM student as s, faculty as f WHERE s.faculty_id = f.id and f.id = 1;

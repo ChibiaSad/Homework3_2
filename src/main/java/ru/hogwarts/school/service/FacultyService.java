@@ -59,7 +59,10 @@ public class FacultyService {
     }
 
     public Collection<StudentRecord> getStudentsByFacultyId(long id) {
-        return facultyRepository.findAllStudentsByFacultyId(id);
+        return facultyRepository.findById(id)
+                .orElseThrow(FacultyNotFoundException::new)
+                .getStudents().stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
     }
-
 }
