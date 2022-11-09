@@ -65,4 +65,10 @@ public class FacultyService {
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
+
+    public Collection<StudentRecord> getStudentsByFacultyId2(long id) {
+        return facultyRepository.fundStudentsByFacultyId(id).stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
 }
