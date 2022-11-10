@@ -3,10 +3,12 @@ package ru.hogwarts.school.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.component.RecordMapper;
 import ru.hogwarts.school.entity.Faculty;
+import ru.hogwarts.school.exception.FacultyNotFoundException;
 import ru.hogwarts.school.exception.StudentNotFoundException;
 import ru.hogwarts.school.record.FacultyRecord;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.record.StudentRecord;
+import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
@@ -15,10 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final FacultyRepository facultyRepository;
     private final RecordMapper recordMapper;
 
-    public StudentService(StudentRepository studentRepository, RecordMapper recordMapper) {
+    public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository, RecordMapper recordMapper) {
         this.studentRepository = studentRepository;
+        this.facultyRepository = facultyRepository;
         this.recordMapper = recordMapper;
     }
 
@@ -35,6 +39,8 @@ public class StudentService {
         Student oldStudent = studentRepository.findById(studentRecord.getId()).orElseThrow(StudentNotFoundException::new);
         oldStudent.setName(studentRecord.getName());
         oldStudent.setAge(studentRecord.getAge());
+        oldStudent.setFaculty(facultyRepository.findById(studentRecord.getFacultyRecord().getId())
+                .orElseThrow(FacultyNotFoundException::new));
         return recordMapper.toRecord(studentRepository.save(oldStudent));
     }
 

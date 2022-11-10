@@ -4,7 +4,7 @@ public class StudentRecord {
     private long id;
     private String name;
     private int age;
-    private long faculty;
+    private FacultyRecord facultyRecord;
 
     public long getId() {
         return id;
@@ -30,11 +30,11 @@ public class StudentRecord {
         this.age = age;
     }
 
-    public long getFaculty() {
-        return faculty;
+    public FacultyRecord getFacultyRecord() {
+        return facultyRecord;
     }
 
-    public void setFaculty(long faculty) {
-        this.faculty = faculty;
+    public void setFacultyRecord(FacultyRecord facultyRecord) {
+        this.facultyRecord = facultyRecord;
     }
 }

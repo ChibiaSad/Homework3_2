@@ -1,22 +1,18 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.http.HttpHeaders;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.hogwarts.school.entity.Avatar;
+import ru.hogwarts.school.record.AvatarRecord;
 import ru.hogwarts.school.service.AvatarService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @RestController
+@RequestMapping("/avatar")
 public class AvatarController {
     private final AvatarService avatarService;
 
@@ -24,32 +20,27 @@ public class AvatarController {
         this.avatarService = avatarService;
     }
 
-    @PostMapping(value = "/avatar/{studentId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> upload(@PathVariable long studentId,
-                                         @RequestParam MultipartFile avatar) throws IOException {
-        avatarService.upload(studentId, avatar);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public AvatarRecord upload(@RequestParam MultipartFile avatar,
+                               @RequestParam long studentId) throws IOException {
+        return avatarService.upload(avatar, studentId);
     }
 
-    @GetMapping("/avatar-from-DB/{id}")
+    @GetMapping("/{id}/from-DB")
     public ResponseEntity<byte[]> readFromDB(@PathVariable long id){
-        Avatar avatar = avatarService.findAvatar(id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(avatar.getMediaType()));
-        headers.setContentLength(avatar.getData().length);
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(avatar.getData());
+        Pair<byte[], String> pair = avatarService.readFromDB(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentLength(pair.getFirst().length)
+                .contentType(MediaType.parseMediaType(pair.getSecond()))
+                .body(pair.getFirst());
     }
 
-    @GetMapping(value = "/{id}/avatar-from-file")
-    public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException{
-        Avatar avatar = avatarService.findAvatar(id);
-        Path path = Path.of(avatar.getFilePath());
-        try(InputStream is = Files.newInputStream(path);
-            OutputStream os = response.getOutputStream()) {
-            response.setStatus(200);
-            response.setContentType(avatar.getMediaType());
-            response.setContentLength((int) avatar.getFileSize());
-            is.transferTo(os);
-        }
+    @GetMapping(value = "/{id}/from-file")
+    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) throws IOException{
+        Pair<byte[], String> pair = avatarService.readFromFile(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentLength(pair.getFirst().length)
+                .contentType(MediaType.parseMediaType(pair.getSecond()))
+                .body(pair.getFirst());
     }
 }

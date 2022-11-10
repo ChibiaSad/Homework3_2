@@ -1,8 +1,10 @@
 package ru.hogwarts.school.component;
 
 import org.springframework.stereotype.Component;
+import ru.hogwarts.school.entity.Avatar;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
+import ru.hogwarts.school.record.AvatarRecord;
 import ru.hogwarts.school.record.FacultyRecord;
 import ru.hogwarts.school.record.StudentRecord;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -20,7 +22,9 @@ public class RecordMapper {
         studentRecord.setId(student.getId());
         studentRecord.setName(student.getName());
         studentRecord.setAge(student.getAge());
-        studentRecord.setFaculty(student.getFaculty().getId());
+        if(student.getFaculty() != null){
+            studentRecord.setFacultyRecord(toRecord(student.getFaculty()));
+        }
         return studentRecord;
     }
 
@@ -32,11 +36,21 @@ public class RecordMapper {
         return facultyRecord;
     }
 
+    public AvatarRecord toRecord(Avatar avatar){
+        AvatarRecord avatarRecord = new AvatarRecord();
+        avatarRecord.setId(avatar.getId());
+        avatarRecord.setMediaType(avatar.getMediaType());
+        avatarRecord.setUrl("http://localhost:8080/avatar/" + avatar.getId() + "/from-DB");
+        return avatarRecord;
+    }
+
     public Student toEntity(StudentRecord studentRecord){
         Student student = new Student();
         student.setName(studentRecord.getName());
         student.setAge(studentRecord.getAge());
-        student.setFaculty(facultyRepository.findById(studentRecord.getFaculty()).orElse(null));
+        if(studentRecord.getFacultyRecord() != null){
+            student.setFaculty(facultyRepository.findById(studentRecord.getFacultyRecord().getId()).orElse(null));
+        }
         return student;
     }
 
