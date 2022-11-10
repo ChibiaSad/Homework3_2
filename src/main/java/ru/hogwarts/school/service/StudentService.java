@@ -70,4 +70,18 @@ public class StudentService {
         Faculty faculty = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new).getFaculty();
         return recordMapper.toRecord(faculty);
     }
+
+    public Integer getStudentCount() {
+        return studentRepository.getStudentsCount();
+    }
+
+    public Double getStudentsAverageAge() {
+        return studentRepository.getStudentsAverageAge();
+    }
+
+    public Collection<StudentRecord> getLastFiveStudents() {
+        return studentRepository.findLastFiveStudents().stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
 }

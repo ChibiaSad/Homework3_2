@@ -10,6 +10,7 @@ import ru.hogwarts.school.record.AvatarRecord;
 import ru.hogwarts.school.service.AvatarService;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/avatar")
@@ -35,12 +36,18 @@ public class AvatarController {
                 .body(pair.getFirst());
     }
 
-    @GetMapping(value = "/{id}/from-file")
+    @GetMapping("/{id}/from-file")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) throws IOException{
         Pair<byte[], String> pair = avatarService.readFromFile(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentLength(pair.getFirst().length)
                 .contentType(MediaType.parseMediaType(pair.getSecond()))
                 .body(pair.getFirst());
+    }
+
+    @GetMapping()
+    public ResponseEntity<Collection<AvatarRecord>> getAllByPage(@RequestParam int pageNumber,
+                                                                 @RequestParam int pageSize){
+        return ResponseEntity.ok(avatarService.getAllByPage(pageNumber, pageSize));
     }
 }
