@@ -1,10 +1,7 @@
-package ru.hogwarts.school.handler;
+package ru.hogwarts.school.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.hogwarts.school.exception.AvatarNotFoundException;
-import ru.hogwarts.school.exception.FacultyNotFoundException;
-import ru.hogwarts.school.exception.StudentNotFoundException;
 
 @RestControllerAdvice
 public class ExceptionHandler {
