@@ -76,7 +76,7 @@ public class StudentController {
     }
 
     @GetMapping("/starts-with")
-    public ResponseEntity<Collection<String>> getStudentsStartsWith(@RequestParam String letter){
+    public ResponseEntity<Collection<String>> getStudentsStartsWith(@RequestParam char letter){
         return ResponseEntity.ok(studentService.getStudentsStartsWith(letter));
     }
 

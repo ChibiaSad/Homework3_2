@@ -108,10 +108,10 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public Collection<String> getStudentsStartsWith(String letter) {
+    public Collection<String> getStudentsStartsWith(char letter) {
         return studentRepository.findAll().stream()
                 .parallel()
-                .filter(s -> s.getName().startsWith(letter))
+                .filter(s -> s.getName().startsWith(String.valueOf(letter)))
                 .map(s -> s.getName().toUpperCase())
                 .sorted()
                 .collect(Collectors.toList());
