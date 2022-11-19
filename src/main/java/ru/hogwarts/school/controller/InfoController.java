@@ -13,8 +13,13 @@ public class InfoController {
         this.infoService = infoService;
     }
 
-    @GetMapping("/getPort")
+    @GetMapping("/get-port")
     public ResponseEntity<Integer> getPort(){
         return ResponseEntity.ok(infoService.getPort());
+    }
+
+    @GetMapping("/int-value")
+    public ResponseEntity<Integer> getIntValue(){
+        return ResponseEntity.ok(infoService.getIntValue());
     }
 }

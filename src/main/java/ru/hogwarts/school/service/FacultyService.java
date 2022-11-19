@@ -11,6 +11,7 @@ import ru.hogwarts.school.record.StudentRecord;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,5 +83,13 @@ public class FacultyService {
                 .getStudents().stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
+    }
+
+    public String getNameWithMaxLength() {
+        return facultyRepository.findAll().stream()
+                .parallel()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
     }
 }
