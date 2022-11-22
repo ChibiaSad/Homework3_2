@@ -1,4 +1,4 @@
-ALTER TABLE student ADD CONSTRAINT age_minValue CHECK (age > 11);
+ALTER TABLE student ADD CONSTRAINT age_min CHECK (age > 10);
 
 ALTER TABLE student ADD CONSTRAINT name_unique UNIQUE (name);
 ALTER TABLE student ALTER COLUMN name SET NOT NULL;
