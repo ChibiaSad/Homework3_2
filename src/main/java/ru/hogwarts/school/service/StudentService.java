@@ -30,12 +30,12 @@ public class StudentService {
 
 
     public StudentRecord addStudent(StudentRecord studentRecord) {
-        logger.info("was invoking method addStudent");
+        logger.debug("was invoking method addStudent");
         return recordMapper.toRecord(studentRepository.save(recordMapper.toEntity(studentRecord)));
     }
 
     public StudentRecord getStudent(long id) {
-        logger.info("was invoking method getStudent");
+        logger.debug("was invoking method getStudent");
         return recordMapper.toRecord(studentRepository.findById(id).orElseThrow(() -> {
             logger.error("There is not student with id = " + id);
             throw new StudentNotFoundException();
@@ -43,7 +43,7 @@ public class StudentService {
     }
 
     public StudentRecord setStudent(StudentRecord studentRecord) {
-        logger.info("was invoking method setStudent");
+        logger.debug("was invoking method setStudent");
 
         Student oldStudent = studentRepository.findById(studentRecord.getId()).orElseThrow(() -> {
             logger.error("There is not student with id = " + studentRecord.getId());
@@ -61,56 +61,56 @@ public class StudentService {
     }
 
     public void deleteStudent(long id) {
-        logger.info("was invoking method deleteStudent");
+        logger.debug("was invoking method deleteStudent");
         studentRepository.deleteById(id);
     }
 
     public Collection<StudentRecord> getAllByAge(int age) {
-        logger.info("was invoking method getAllByAge");
+        logger.debug("was invoking method getAllByAge");
         return studentRepository.findAllByAge(age).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<StudentRecord> getAll() {
-        logger.info("was invoking method getAll");
+        logger.debug("was invoking method getAll");
         return studentRepository.findAll().stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<StudentRecord> getAllByAgeInRange(int min, int max) {
-        logger.info("was invoking method getAllByAgeInRange");
+        logger.debug("was invoking method getAllByAgeInRange");
         return studentRepository.findAllByAgeBetween(min, max).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public FacultyRecord getFacultyByStudentId(long id){
-        logger.info("was invoking method getFacultyByStudentId");
+        logger.debug("was invoking method getFacultyByStudentId");
         return getStudent(id).getFacultyRecord();
     }
 
     public Integer getStudentCount() {
-        logger.info("was invoking method getStudentCount");
+        logger.debug("was invoking method getStudentCount");
         return studentRepository.getStudentsCount();
     }
 
     public Double getStudentsAverageAge() {
-        logger.info("was invoking method getStudentsAverageAge");
+        logger.debug("was invoking method getStudentsAverageAge");
         return studentRepository.getStudentsAverageAge();
     }
 
     public Collection<StudentRecord> getLastFiveStudents() {
-        logger.info("was invoking method getLastFiveStudents");
+        logger.debug("was invoking method getLastFiveStudents");
         return studentRepository.findLastFiveStudents().stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<String> getStudentsStartsWith(char letter) {
+        logger.debug("was invoking method getStudentsStartsWith");
         return studentRepository.findAll().stream()
-                .parallel()
                 .filter(s -> s.getName().startsWith(String.valueOf(letter)))
                 .map(s -> s.getName().toUpperCase())
                 .sorted()
@@ -118,10 +118,10 @@ public class StudentService {
     }
 
     public Double getStudentsAverageAgeByStream(){
+        logger.debug("was invoking method getStudentsAverageAgeByStream");
         return studentRepository.findAll().stream()
-                .parallel()
                 .mapToDouble(Student::getAge)
                 .average()
-                .orElse(0);
+                .orElseThrow(FacultyNotFoundException::new);
     }
 }

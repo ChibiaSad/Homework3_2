@@ -26,12 +26,12 @@ public class FacultyService {
     }
 
     public FacultyRecord addFaculty(FacultyRecord facultyRecord) {
-        logger.info("was invoking method addFaculty");
+        logger.debug("was invoking method addFaculty");
         return recordMapper.toRecord(facultyRepository.save(recordMapper.toEntity(facultyRecord)));
     }
 
     public FacultyRecord getFaculty(long id) {
-        logger.info("was invoking method getFaculty");
+        logger.debug("was invoking method getFaculty");
         return recordMapper.toRecord(facultyRepository.findById(id).orElseThrow(() -> {
             logger.error("There is not faculty with id = " + id);
             throw new FacultyNotFoundException();
@@ -39,7 +39,7 @@ public class FacultyService {
     }
 
     public FacultyRecord setFaculty(FacultyRecord facultyRecord) {
-        logger.info("was invoking method setFaculty");
+        logger.debug("was invoking method setFaculty");
         Faculty oldFaculty = facultyRepository.findById(facultyRecord.getId()).orElseThrow(() -> {
             logger.error("There is not faculty with id = " + facultyRecord.getId());
             throw new FacultyNotFoundException();
@@ -51,33 +51,33 @@ public class FacultyService {
     }
 
     public void deleteFaculty(long id) {
-        logger.info("was invoking method deleteFaculty");
+        logger.debug("was invoking method deleteFaculty");
         facultyRepository.deleteById(id);
     }
 
     public Collection<FacultyRecord> getAllByColor(String color) {
-        logger.info("was invoking method getAllByColor");
+        logger.debug("was invoking method getAllByColor");
         return facultyRepository.findAllByColorIgnoreCase(color).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<FacultyRecord> getAllByColorOrName(String color, String name) {
-        logger.info("was invoking method getAllByColorOrName");
+        logger.debug("was invoking method getAllByColorOrName");
         return facultyRepository.findAllByColorIgnoreCaseOrNameIgnoreCase(color, name).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<FacultyRecord> getAll() {
-        logger.info("was invoking method getAll");
+        logger.debug("was invoking method getAll");
         return facultyRepository.findAll().stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
     public Collection<StudentRecord> getStudentsByFacultyId(long id) {
-        logger.info("was invoking method getStudentsByFacultyId");
+        logger.debug("was invoking method getStudentsByFacultyId");
         return facultyRepository.findById(id)
                 .orElseThrow(FacultyNotFoundException::new)
                 .getStudents().stream()
@@ -86,10 +86,10 @@ public class FacultyService {
     }
 
     public String getNameWithMaxLength() {
+        logger.debug("was invoking method getNameWithMaxLength");
         return facultyRepository.findAll().stream()
-                .parallel()
                 .map(Faculty::getName)
                 .max(Comparator.comparingInt(String::length))
-                .orElse("");
+                .orElseThrow(FacultyNotFoundException::new);
     }
 }

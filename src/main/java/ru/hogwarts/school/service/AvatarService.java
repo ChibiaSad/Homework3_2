@@ -39,7 +39,7 @@ public class AvatarService {
     }
 
     public AvatarRecord upload(MultipartFile avatarFile, long studentId) throws IOException {
-        logger.info("was invoking method upload");
+        logger.debug("was invoking method upload");
         Student student = studentRepository.findById(studentId).orElseThrow(() -> {
             logger.error("There is not student with id = " + studentId);
             throw new StudentNotFoundException();
@@ -64,7 +64,7 @@ public class AvatarService {
     }
 
     public Pair<byte[], String> readFromDB(long id) {
-        logger.info("was invoking method readFromDB");
+        logger.debug("was invoking method readFromDB");
         Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> {
             logger.error("There is not student with id = " + id);
             throw new AvatarNotFoundException();
@@ -73,7 +73,7 @@ public class AvatarService {
     }
 
     public Pair<byte[], String> readFromFile(long id) throws IOException {
-        logger.info("was invoking method readFromFile");
+        logger.debug("was invoking method readFromFile");
         Avatar avatar = avatarRepository.findById(id).orElseThrow(() -> {
             logger.error("There is not student with id = " + id);
             throw new AvatarNotFoundException();
@@ -83,7 +83,7 @@ public class AvatarService {
     }
 
     public Collection<AvatarRecord> getAllByPage(int pageNumber, int pageSize) {
-        logger.info("was invoking method getAllByPage");
+        logger.debug("was invoking method getAllByPage");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent().stream()
                 .map(recordMapper::toRecord)
