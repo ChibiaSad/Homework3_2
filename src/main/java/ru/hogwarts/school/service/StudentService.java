@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.component.RecordMapper;
 import ru.hogwarts.school.exception.FacultyNotFoundException;
@@ -13,6 +14,7 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,5 +125,36 @@ public class StudentService {
                 .mapToDouble(Student::getAge)
                 .average()
                 .orElseThrow(FacultyNotFoundException::new);
+    }
+
+    public void multiThreadMethod(){
+        logger.debug("was invoking method multiThreadMethod");
+        List<Student> list = studentRepository.findAll(PageRequest.of(0,6)).getContent();
+
+        logger.info(list.get(0).getName());
+        logger.info(list.get(1).getName());
+
+        new Thread(() ->{
+            logger.info(list.get(2).getName());
+            logger.info(list.get(3).getName());
+        }).start();
+
+        new Thread(() ->{
+            logger.info(list.get(4).getName());
+            logger.info(list.get(5).getName());
+        }).start();
+    }
+
+    public void multiThreadMethod2(){
+        logger.debug("was invoking method multiThreadMethod2");
+        List<Student> list = studentRepository.findAll(PageRequest.of(0,6)).getContent();
+
+        printNames(list.subList(0, 2));
+        new Thread(() -> printNames(list.subList(2, 4))).start();
+        new Thread(() -> printNames(list.subList(4, 6))).start();
+    }
+
+    private synchronized void printNames(List<Student> students){
+        students.forEach(s -> logger.info(s.getName()));
     }
 }
