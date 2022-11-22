@@ -18,8 +18,8 @@ public class InfoController {
         return ResponseEntity.ok(infoService.getPort());
     }
 
-    @GetMapping("/int-value")
-    public ResponseEntity<Integer> getIntValue(){
+    @GetMapping("/long-value")
+    public ResponseEntity<Long> getIntValue(){
         return ResponseEntity.ok(infoService.getIntValue());
     }
 }
