@@ -84,4 +84,16 @@ public class StudentController {
     public ResponseEntity<Double> getStudentsStartsWith(){
         return ResponseEntity.ok(studentService.getStudentsAverageAgeByStream());
     }
+
+    @GetMapping("/multi-thread-endpoint")
+    public ResponseEntity<Void> printNames(){
+        studentService.multiThreadMethod();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/multi-thread-endpoint-2")
+    public ResponseEntity<Void> printNames2(){
+        studentService.multiThreadMethod2();
+        return ResponseEntity.ok().build();
+    }
 }
